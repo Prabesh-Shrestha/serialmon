@@ -2,5 +2,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    serialmon_lib::run()
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![
+            list_serial_ports,
+            read_serial_data,
+            write_serial_data
+        ])
+        .run(tauri::generate_context!())
+        .expect("Error while running Tauri application");
 }
